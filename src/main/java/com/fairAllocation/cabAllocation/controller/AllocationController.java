@@ -15,11 +15,9 @@ public class AllocationController {
 
     @PostMapping("/allocate/{tripId}")
     public ResponseEntity<?> allocateTrip(@PathVariable Long tripId) {
-        try{
+
             Trip allocatedTrip = allocationService.allocateTrip(tripId);
             return ResponseEntity.ok(allocatedTrip);
-        }catch (RuntimeException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+
     }
 }
