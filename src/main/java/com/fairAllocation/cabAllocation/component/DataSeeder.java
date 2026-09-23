@@ -28,9 +28,9 @@ public class DataSeeder implements CommandLineRunner {
 
         if(vendorRepository.count()==0){
 
-            Vendor v1 = new Vendor(null,"Vendor 1 (V1)",10,10);
-            Vendor v2= new Vendor(null,"Vendor 2 (V2)",10,10);
-            Vendor v3= new Vendor(null,"Vendor 3 (V3)",10,10);
+            Vendor v1 = new Vendor(null,"Vendor 1 (V1)",10,10,null);
+            Vendor v2= new Vendor(null,"Vendor 2 (V2)",10,10,null);
+            Vendor v3= new Vendor(null,"Vendor 3 (V3)",10,10,null);
 
             vendorRepository.save(v1);
             vendorRepository.save(v2);

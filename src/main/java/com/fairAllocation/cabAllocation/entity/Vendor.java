@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -17,4 +19,5 @@ public class Vendor {
 
     private Integer totalCapacity;
     private Integer currentActiveCabs;
+    private LocalDateTime coolOffUntil;
 }

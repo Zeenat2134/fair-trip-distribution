@@ -18,6 +18,11 @@ public class AllocationController {
 
             Trip allocatedTrip = allocationService.allocateTrip(tripId);
             return ResponseEntity.ok(allocatedTrip);
+    }
 
+    @PostMapping("/reject/{tripId}")
+    public ResponseEntity<?> rejectTrip(@PathVariable Long tripId) {
+        Trip reallocatedTrip= allocationService.rejectAndReallocate(tripId);
+        return ResponseEntity.ok(reallocatedTrip);
     }
 }

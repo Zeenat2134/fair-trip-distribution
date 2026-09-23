@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +64,8 @@ public class AllocationService {
 
         // selecting the most owed vendor
         VendorLedger selectedLedger = ledgers.stream()
-                .filter(ledger -> ledger.getVendor().getCurrentActiveCabs() > 0)
+                .filter(ledger -> ledger.getVendor().getCurrentActiveCabs() > 0 &&
+                        (ledger.getVendor().getCoolOffUntil()==null || ledger.getVendor().getCoolOffUntil().isBefore(LocalDateTime.now())))
                 .max(Comparator.comparing(VendorLedger::getOwedBalance)
                         .thenComparing(l -> l.getVendor().getId().doubleValue() * -1))
                 .orElseThrow(() -> new RuntimeException("No vendors with availabe capacity"));
@@ -84,5 +86,33 @@ public class AllocationService {
 
         return trip;
 
+    }
+
+
+    //to handle rejection
+
+    @Transactional
+    public Trip rejectAndReallocate(Long tripId) {
+
+        Trip trip=tripRepository.findById(tripId)
+                .orElseThrow(() -> new RuntimeException("Trip not found"));
+
+
+        if(!"ALLOCATED".equals(trip.getStatus()) || trip.getAssignedVendor()==null) {
+            throw new RuntimeException("Trip is not currently allocated");
+        }
+
+        Vendor rejectingVendor= trip.getAssignedVendor();
+
+        rejectingVendor.setCoolOffUntil(LocalDateTime.now().plusMinutes(15));
+
+        rejectingVendor.setCurrentActiveCabs(rejectingVendor.getCurrentActiveCabs() + 1);
+        vendorRepository.save(rejectingVendor);
+
+        trip.setStatus("PENDING");
+        trip.setAssignedVendor(null);
+        tripRepository.save(trip);
+
+        return allocateTrip(trip.getId());
     }
 }
