@@ -10,11 +10,8 @@ Many organizations do not own their own fleets but instead hire cabs from multip
 
 **The Solution:** FairCab is a mathematically deterministic fair-division engine. It tracks the exact shortfall between what a vendor was promised and what they actually received, carrying fractions forward day-to-day to guarantee long-term contractual fairness.
 
-## 2. 📸 Live Demo & Visuals
 
-* 🎥 **Video Walkthrough:** [YouTube / Loom Link Here]
-
-## 3. ✨ Key Features & Capabilities
+## 2. ✨ Key Features & Capabilities
 
 * **Deterministic "Most-Owed-First" Algorithm:** Computes running shortfalls and carries leftover fractions forward. The same trips and configs will always produce the exact same allocation without randomness.
 * **Zone & Category Routing:** Handles logic differently based on distance slabs (e.g., 0-15 km, 25+ km) and distinct trip categories (Escort vs. Normal).
@@ -23,7 +20,7 @@ Many organizations do not own their own fleets but instead hire cabs from multip
 * **Zero-Trust Security:** API endpoints are secured via Spring Security using HTTP Basic Authentication.
 * **Active System Monitoring:** Real-time health dashboards via Spring Boot Actuator to monitor DB status and disk space.
 
-## 4. 🏗️ Architecture & System Design
+## 3. 🏗️ Architecture & System Design
 
 * **Language & Framework:** Java 17/21, Spring Boot 3
 * **Database & ORM:** PostgreSQL, Spring Data JPA, Hibernate
@@ -42,7 +39,7 @@ Client Request
   → PostgreSQL DB
 ```
 
-## 5. 🗄️ Database Schema & Data Modeling
+## 4. 🗄️ Database Schema & Data Modeling
 
 We chose PostgreSQL primarily for its robust ACID compliance and row-level locking capabilities, which are mandatory for handling high-concurrency race conditions.
 
@@ -51,7 +48,7 @@ We chose PostgreSQL primarily for its robust ACID compliance and row-level locki
 * **Trip:** Represents a physical trip, tracking its status (`PENDING`, `ALLOCATED`), zone, category, and `assignedVendor`.
 * **AllocationLedger:** The financial core. Tracks promised percentages vs. actually allocated trips to compute the exact shortfall.
 
-## 6. ⚖️ Technical Challenges, Assumptions & Trade-offs
+## 5. ⚖️ Technical Challenges, Assumptions & Trade-offs
 
 ### Core Assumptions
 * Vendors begin Day 1 with a shortfall of zero.
@@ -69,7 +66,7 @@ We chose PostgreSQL primarily for its robust ACID compliance and row-level locki
 * **The Bug:** Standard Java `double` and `float` data types lose precision over thousands of iterative math operations, causing the system to slowly lose or gain trips.
 * **The Solution:** We strictly utilized Java's `BigDecimal` class for all percentage and shortfall calculations. It requires more memory space and CPU cycles than primitive types, but it guarantees zero-drift exactness for the carry-forward fractions. Time complexity remains $\mathcal{O}(N)$ (where $N$ is the number of active vendors), and space complexity is $\mathcal{O}(V + T)$ (Vendors + Trips).
 
-## 7. 🚀 Getting Started / Local Installation
+## 6. 🚀 Getting Started / Local Installation
 
 ### Prerequisites
 * Java 17 or higher
@@ -105,7 +102,7 @@ We chose PostgreSQL primarily for its robust ACID compliance and row-level locki
    * **Password:** `admin123`
    *(Test the monitoring dashboard at `/actuator/health`)*
 
-## 8. 🗺️ Future Improvements / Roadmap
+## 7. 🗺️ Future Improvements / Roadmap
 
 * **Migration to JWT OAuth2:** Replace Basic Auth with stateless JSON Web Tokens for secure mobile/client integrations.
 * **Redis Integration:** Swap the in-memory cache for Redis to allow horizontal scaling (multiple instances of the application running simultaneously behind a load balancer).
