@@ -37,7 +37,7 @@ public class AllocationService {
             throw new RuntimeException("Trip is already allocated");
         }
 
-        // not allocated so we will fetch all the ledgers with zonetype and category
+        //logic responsible for carry- forwarding
 
         List<VendorLedger> ledgers = vendorLedgerRepository.findLedgersForAllocationWithLock(
                 trip.getZoneType(), trip.getTripCategory());
@@ -45,7 +45,7 @@ public class AllocationService {
         if (ledgers.isEmpty()) {
             throw new RuntimeException("No Vendor configurations found for this zone/category");
         }
-        //dd promised share to every vendor
+        //add promised share to every vendor
         for (VendorLedger ledger : ledgers) {
             Double promisedPercentage = vendorZoneConfigRepository
                     .findByZoneTypeAndTripCategory(trip.getZoneType(), trip.getTripCategory())

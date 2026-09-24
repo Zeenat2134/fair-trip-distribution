@@ -53,7 +53,7 @@ public class AllocationServiceTest {
 
         Vendor v1= new Vendor(1L,"Vendor 1", 10, 10, null);
         Trip allocatedTrip= new Trip();
-        allocatedTrip.setId(1L);
+        allocatedTrip.setId(2L);
         allocatedTrip.setStatus("ALLOCATED");
         allocatedTrip.setAssignedVendor(v1);
 
