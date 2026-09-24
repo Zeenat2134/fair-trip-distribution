@@ -36,22 +36,77 @@ public class DataSeeder implements CommandLineRunner {
             vendorRepository.save(v2);
             vendorRepository.save(v3);
 
-            String zone="0-15 km";
-            String category="NORMAL";
 
-            vendorZoneConfigRepository.save(new VendorZoneConfig(null,v1,zone,category,50.0));
-            vendorZoneConfigRepository.save(new VendorZoneConfig(null,v2,zone,category,30.0));
-            vendorZoneConfigRepository.save(new VendorZoneConfig(null,v3,zone,category,20.0));
+            // COMBO 1: 0-15 km | NORMAL
+            String zone1="0-15 km";
+            String category1="NORMAL";
 
-            vendorLedgerRepository.save(new VendorLedger(null,v1,zone,category,BigDecimal.ZERO,0));
-            vendorLedgerRepository.save(new VendorLedger(null,v2,zone,category,BigDecimal.ZERO,0));
-            vendorLedgerRepository.save(new VendorLedger(null,v3,zone,category,BigDecimal.ZERO,0));
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null,v1,zone1,category1,50.0));
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null,v2,zone1,category1,30.0));
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null,v3,zone1,category1,20.0));
 
-            for(int i=1;i<=10;i++){
-                Trip trip=new Trip(null,zone,category,"PENDING",null);
+            vendorLedgerRepository.save(new VendorLedger(null,v1,zone1,category1,BigDecimal.ZERO,0));
+            vendorLedgerRepository.save(new VendorLedger(null,v2,zone1,category1,BigDecimal.ZERO,0));
+            vendorLedgerRepository.save(new VendorLedger(null,v3,zone1,category1,BigDecimal.ZERO,0));
+
+            for(int i=1;i<=2;i++){
+                Trip trip=new Trip(null,zone1,category1,"PENDING",null);
                 tripRepository.save(trip);
             }
 
+
+            // COMBO 2: 15-25 km | NORMAL
+            String zone2 = "15-25 km";
+            String category2 = "NORMAL";
+
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null, v1, zone2, category2, 40.0));
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null, v2, zone2, category2, 40.0));
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null, v3, zone2, category2, 20.0));
+
+            vendorLedgerRepository.save(new VendorLedger(null, v1, zone2, category2, BigDecimal.ZERO, 0));
+            vendorLedgerRepository.save(new VendorLedger(null, v2, zone2, category2, BigDecimal.ZERO, 0));
+            vendorLedgerRepository.save(new VendorLedger(null, v3, zone2, category2, BigDecimal.ZERO, 0));
+
+            for(int i = 1; i <= 2; i++) {
+                Trip trip = new Trip(null, zone2, category2, "PENDING", null);
+                tripRepository.save(trip);
+            }
+
+
+            //COMBO 3: 0-15 km | ESCORT
+            String zone3 = "0-15 km";
+            String category3 = "ESCORT";
+
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null, v1, zone3, category3, 70.0));
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null, v2, zone3, category3, 30.0));
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null, v3, zone3, category3, 0.0));
+
+            vendorLedgerRepository.save(new VendorLedger(null, v1, zone3, category3, BigDecimal.ZERO, 0));
+            vendorLedgerRepository.save(new VendorLedger(null, v2, zone3, category3, BigDecimal.ZERO, 0));
+            vendorLedgerRepository.save(new VendorLedger(null, v3, zone3, category3, BigDecimal.ZERO, 0));
+
+            for(int i = 1; i <= 2; i++) {
+                Trip trip = new Trip(null, zone3, category3, "PENDING", null);
+                tripRepository.save(trip);
+            }
+
+
+            // COMBO 4: 15-25 km | ESCORT
+            String zone4 = "15-25 km";
+            String category4 = "ESCORT";
+
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null, v1, zone4, category4, 0.0));
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null, v2, zone4, category4, 50.0));
+            vendorZoneConfigRepository.save(new VendorZoneConfig(null, v3, zone4, category4, 50.0));
+
+            vendorLedgerRepository.save(new VendorLedger(null, v1, zone4, category4, BigDecimal.ZERO, 0));
+            vendorLedgerRepository.save(new VendorLedger(null, v2, zone4, category4, BigDecimal.ZERO, 0));
+            vendorLedgerRepository.save(new VendorLedger(null, v3, zone4, category4, BigDecimal.ZERO, 0));
+
+            for(int i = 1; i <= 2; i++) {
+                Trip trip = new Trip(null, zone4, category4, "PENDING", null);
+                tripRepository.save(trip);
+            }
             System.out.println("DATABASE seeded with 3 Vendors. Contracts, Ledgers and 10 Trips");
         }
     }
